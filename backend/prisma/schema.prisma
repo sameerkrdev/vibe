@@ -1,0 +1,225 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  username      String   @unique
+  passwordHash  String?
+  googleId      String?  @unique
+  avatarUrl     String?
+  displayName   String
+  tokenBalance  Int      @default(500)
+  totalDeducted Int      @default(0)
+  totalEarned   Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  betsCreated      Bet[]              @relation("BetCreator")
+  participations   BetParticipant[]
+  proofSubmissions ProofSubmission[]
+  notifications    Notification[]
+  transactions     TokenTransaction[]
+  votesCast        ProofVote[]        @relation("VotesCast")
+}
+
+enum BetType {
+  RECURRING
+  LAST_MAN_STANDING
+}
+
+enum BetStatus {
+  DRAFT
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum BetVisibility {
+  PRIVATE
+  PUBLIC
+}
+
+model Bet {
+  id               String        @id @default(cuid())
+  title            String
+  description      String?
+  type             BetType
+  status           BetStatus     @default(DRAFT)
+  visibility       BetVisibility @default(PRIVATE)
+  creatorId        String
+  creator          User          @relation("BetCreator", fields: [creatorId], references: [id])
+  tokenPerMiss     Int           @default(0)
+  entryTokens      Int
+  scheduleDays     String[]
+  scheduleType     String        @default("WEEKDAYS")
+  startDate        DateTime?
+  endDate          DateTime?
+  proofDescription String
+  inviteCode       String        @unique @default(cuid())
+  prizePool        Int           @default(0)
+  createdAt        DateTime      @default(now())
+  startedAt        DateTime?
+  completedAt      DateTime?
+
+  participants     BetParticipant[]
+  checkInDays      BetCheckInDay[]
+  proofSubmissions ProofSubmission[]
+}
+
+enum ParticipantStatus {
+  JOINED
+  ACTIVE
+  ELIMINATED
+  COMPLETED
+  WITHDRAWN
+}
+
+model BetParticipant {
+  id             String            @id @default(cuid())
+  betId          String
+  bet            Bet               @relation(fields: [betId], references: [id])
+  userId         String
+  user           User              @relation(fields: [userId], references: [id])
+  status         ParticipantStatus @default(JOINED)
+  tokensLocked   Int
+  tokensDeducted Int               @default(0)
+  streak         Int               @default(0)
+  longestStreak  Int               @default(0)
+  eliminatedAt   DateTime?
+  claimedAt      DateTime?
+  joinedAt       DateTime          @default(now())
+
+  @@unique([betId, userId])
+}
+
+enum DayStatus {
+  PENDING
+  OPEN
+  CHECKED_IN
+  MISSED
+  SKIPPED
+}
+
+model BetCheckInDay {
+  id             String    @id @default(cuid())
+  betId          String
+  bet            Bet       @relation(fields: [betId], references: [id])
+  participantId  String
+  scheduledDate  DateTime
+  status         DayStatus @default(PENDING)
+  tokensDeducted Int       @default(0)
+  deadlineAt     DateTime
+  checkedInAt    DateTime?
+
+  proofSubmissions ProofSubmission[]
+
+  @@unique([betId, participantId, scheduledDate])
+}
+
+enum ProofStatus {
+  PENDING_REVIEW
+  PEER_VOTING
+  PEER_PASSED
+  PEER_FAILED
+  AI_REVIEWING
+  AI_PASSED
+  AI_FAILED
+}
+
+model ProofSubmission {
+  id             String      @id @default(cuid())
+  betId          String
+  bet            Bet         @relation(fields: [betId], references: [id])
+  participantId  String
+  userId         String
+  user           User        @relation(fields: [userId], references: [id])
+  checkInDayId   String
+  checkInDay     BetCheckInDay @relation(fields: [checkInDayId], references: [id])
+  imageUrl       String
+  status         ProofStatus @default(PENDING_REVIEW)
+  aiVerdict      String?
+  aiReason       String?
+  totalVotes     Int         @default(0)
+  acceptVotes    Int         @default(0)
+  rejectVotes    Int         @default(0)
+  votingDeadline DateTime?
+  attemptNumber  Int         @default(1)
+  submittedAt    DateTime    @default(now())
+  reviewedAt     DateTime?
+
+  votes ProofVote[]
+}
+
+enum VoteChoice {
+  ACCEPT
+  REJECT
+}
+
+model ProofVote {
+  id                String          @id @default(cuid())
+  proofSubmissionId String
+  proofSubmission   ProofSubmission @relation(fields: [proofSubmissionId], references: [id])
+  voterId           String
+  voter             User            @relation("VotesCast", fields: [voterId], references: [id])
+  vote              VoteChoice
+  createdAt         DateTime        @default(now())
+
+  @@unique([proofSubmissionId, voterId])
+}
+
+enum TransactionType {
+  LOCK
+  DEDUCT
+  REFUND
+  PAYOUT
+  REDISTRIBUTE
+  SIGNUP_BONUS
+}
+
+model TokenTransaction {
+  id            String          @id @default(cuid())
+  userId        String
+  user          User            @relation(fields: [userId], references: [id])
+  betId         String?
+  type          TransactionType
+  amount        Int
+  balanceBefore Int
+  balanceAfter  Int
+  description   String
+  createdAt     DateTime        @default(now())
+}
+
+enum NotificationType {
+  BET_INVITE
+  BET_STARTED
+  CHECK_IN_REMINDER
+  PROOF_PASSED
+  PROOF_FAILED
+  TOKENS_DEDUCTED
+  PARTICIPANT_ELIMINATED
+  BET_COMPLETED
+  PAYOUT_AVAILABLE
+  BET_CANCELLED
+  VOTE_NEEDED
+  VOTE_RESULT
+  MEMBER_PROOF_REJECTED
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id])
+  type      NotificationType
+  title     String
+  body      String
+  isRead    Boolean          @default(false)
+  betId     String?
+  createdAt DateTime         @default(now())
+}
