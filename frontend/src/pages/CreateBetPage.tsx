@@ -76,7 +76,7 @@ export default function CreateBetPage() {
   return (
     <div className="max-w-2xl space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">Create a Bet</h1>
+        <h1 className="text-3xl font-extrabold tracking-tight">Create a Bet</h1>
         <p className="text-muted-foreground text-sm mt-1">
           Put skin in the game and hold yourself accountable.
         </p>
@@ -84,11 +84,11 @@ export default function CreateBetPage() {
 
       <form onSubmit={handleSubmit((d) => mutation.mutate(d))} className="space-y-6">
         {/* Bet type */}
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm">Bet Type</CardTitle>
+        <Card className="glass-card border-white/5 bg-background/40 shadow-sm rounded-xl">
+          <CardHeader className="pb-3 px-5 pt-5">
+            <CardTitle className="text-sm font-semibold">Bet Type</CardTitle>
           </CardHeader>
-          <CardContent className="grid grid-cols-2 gap-3">
+          <CardContent className="grid grid-cols-2 gap-3 px-5 pb-5">
             {(["RECURRING", "LAST_MAN_STANDING"] as const).map((type) => (
               <button
                 key={type}
@@ -115,11 +115,11 @@ export default function CreateBetPage() {
         </Card>
 
         {/* Details */}
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm">Details</CardTitle>
+        <Card className="glass-card border-white/5 bg-background/40 shadow-sm rounded-xl">
+          <CardHeader className="pb-3 px-5 pt-5">
+            <CardTitle className="text-sm font-semibold">Details</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 px-5 pb-5">
             <div className="space-y-1">
               <Label htmlFor="title">Title</Label>
               <Input id="title" placeholder="e.g. 30-day workout challenge" {...register("title")} />
@@ -146,11 +146,11 @@ export default function CreateBetPage() {
         </Card>
 
         {/* Schedule */}
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm">Schedule</CardTitle>
+        <Card className="glass-card border-white/5 bg-background/40 shadow-sm rounded-xl">
+          <CardHeader className="pb-3 px-5 pt-5">
+            <CardTitle className="text-sm font-semibold">Schedule</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 px-5 pb-5">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1">
                 <Label htmlFor="startDate">Start date</Label>
@@ -191,11 +191,11 @@ export default function CreateBetPage() {
         </Card>
 
         {/* Tokens & visibility */}
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm">Stakes & Visibility</CardTitle>
+        <Card className="glass-card border-white/5 bg-background/40 shadow-sm rounded-xl">
+          <CardHeader className="pb-3 px-5 pt-5">
+            <CardTitle className="text-sm font-semibold">Stakes & Visibility</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 px-5 pb-5">
             <div className="space-y-1">
               <Label htmlFor="entryTokens">Entry tokens</Label>
               <Input id="entryTokens" type="number" min={10} max={10000} {...register("entryTokens")} />
@@ -217,7 +217,7 @@ export default function CreateBetPage() {
           </CardContent>
         </Card>
 
-        <Button type="submit" className="w-full" disabled={mutation.isPending}>
+        <Button type="submit" className="w-full rounded-xl py-6 text-base font-semibold shadow-sm" disabled={mutation.isPending}>
           {mutation.isPending ? "Creating…" : "Create Bet"}
         </Button>
       </form>

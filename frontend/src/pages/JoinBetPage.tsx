@@ -56,18 +56,18 @@ export default function JoinBetPage() {
   return (
     <div className="max-w-lg space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">You've been invited!</h1>
+        <h1 className="text-3xl font-extrabold tracking-tight">You've been invited!</h1>
         <p className="text-muted-foreground text-sm mt-1">Review the bet before joining.</p>
       </div>
 
-      <Card>
-        <CardHeader>
+      <Card className="glass-card border-white/5 bg-background/40 shadow-sm rounded-xl">
+        <CardHeader className="pt-5 px-5 pb-3">
           <CardTitle>{bet.title}</CardTitle>
           {bet.description && (
             <p className="text-sm text-muted-foreground">{bet.description}</p>
           )}
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 px-5 pb-5">
           <div className="flex flex-wrap gap-4 text-sm">
             <span className="flex items-center gap-1.5 text-muted-foreground">
               <Coins className="h-4 w-4 text-accent" />
@@ -113,7 +113,7 @@ export default function JoinBetPage() {
           </div>
 
           <Button
-            className="w-full"
+            className="w-full rounded-xl py-6 text-base font-semibold shadow-sm"
             onClick={() => joinMutation.mutate()}
             disabled={joinMutation.isPending}
           >

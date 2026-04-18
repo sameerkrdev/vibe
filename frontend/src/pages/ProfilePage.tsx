@@ -58,12 +58,12 @@ export default function ProfilePage() {
 
   return (
     <div className="max-w-lg space-y-6">
-      <h1 className="text-2xl font-bold">Profile</h1>
+      <h1 className="text-3xl font-extrabold tracking-tight">Profile</h1>
 
-      <Card>
-        <CardHeader className="pb-3">
+      <Card className="glass-card border-white/5 bg-background/40 shadow-sm rounded-xl">
+        <CardHeader className="pb-3 px-5 pt-5">
           <div className="flex items-center gap-4">
-            <Avatar className="h-16 w-16">
+            <Avatar className="h-16 w-16 border border-border shadow-sm">
               <AvatarImage src={user?.avatarUrl ?? undefined} />
               <AvatarFallback className="bg-primary text-primary-foreground text-lg">
                 {initials}
@@ -79,7 +79,7 @@ export default function ProfilePage() {
 
         <Separator />
 
-        <CardContent className="pt-4 grid grid-cols-2 gap-4 text-center">
+        <CardContent className="pt-4 px-5 pb-5 grid grid-cols-2 gap-4 text-center">
           <div>
             <p className="text-2xl font-bold text-accent">{user?.tokenBalance}</p>
             <p className="text-xs text-muted-foreground">tokens</p>
@@ -92,11 +92,11 @@ export default function ProfilePage() {
       </Card>
 
       {editing ? (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-sm">Edit Profile</CardTitle>
+        <Card className="glass-card border-white/5 bg-background/40 shadow-sm rounded-xl">
+          <CardHeader className="pt-5 px-5 pb-2">
+            <CardTitle className="text-sm font-semibold">Edit Profile</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-5 pb-5">
             <form onSubmit={handleSubmit((d) => mutation.mutate(d))} className="space-y-4">
               <div className="space-y-1">
                 <Label htmlFor="displayName">Display Name</Label>
@@ -121,7 +121,7 @@ export default function ProfilePage() {
           </CardContent>
         </Card>
       ) : (
-        <Button variant="outline" onClick={() => setEditing(true)}>
+        <Button variant="outline" className="rounded-full shadow-sm" onClick={() => setEditing(true)}>
           Edit Profile
         </Button>
       )}

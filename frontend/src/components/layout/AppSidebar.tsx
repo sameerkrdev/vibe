@@ -6,6 +6,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { TokenBalance } from "@/components/wallet/TokenBalance";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
+import { LogOut } from "lucide-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router";
 
 const navItems = [
   { to: "/", icon: Home, label: "Dashboard", end: true },
@@ -34,6 +37,19 @@ export function AppSidebar() {
     .join("")
     .toUpperCase()
     .slice(0, 2);
+
+  const qc = useQueryClient();
+  const navigate = useNavigate();
+  const setUser = useAuthStore((s) => s.setUser);
+
+  const logout = useMutation({
+    mutationFn: () => api.post("/api/auth/logout"),
+    onSuccess: () => {
+      setUser(null);
+      qc.clear();
+      void navigate("/auth/login");
+    },
+  });
 
   return (
     <aside className="hidden md:flex flex-col w-64 min-h-screen border-r bg-sidebar sticky top-0">
@@ -74,7 +90,7 @@ export function AppSidebar() {
 
       <div className="p-4 border-t">
         <div className="flex items-center gap-3">
-          <Avatar className="h-8 w-8">
+          <Avatar className="h-9 w-9 border border-border">
             <AvatarImage src={user?.avatarUrl ?? undefined} />
             <AvatarFallback className="bg-primary text-primary-foreground text-xs">
               {initials}
@@ -82,8 +98,15 @@ export function AppSidebar() {
           </Avatar>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium truncate">{user?.displayName}</p>
-            <TokenBalance className="text-xs" />
+            <p className="text-xs text-muted-foreground truncate">@{user?.username}</p>
           </div>
+          <button
+            title="Log Out"
+            className="text-muted-foreground hover:text-destructive transition-colors p-2 rounded-md hover:bg-destructive/10"
+            onClick={() => logout.mutate()}
+          >
+            <LogOut className="h-4 w-4" />
+          </button>
         </div>
       </div>
     </aside>

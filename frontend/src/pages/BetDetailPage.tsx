@@ -81,7 +81,7 @@ export default function BetDetailPage() {
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold">{bet.title}</h1>
+          <h1 className="text-3xl font-extrabold tracking-tight">{bet.title}</h1>
           {bet.description && (
             <p className="text-muted-foreground text-sm mt-1">{bet.description}</p>
           )}
@@ -135,8 +135,8 @@ export default function BetDetailPage() {
         <h3 className="font-semibold text-sm mb-3">Participants</h3>
         <div className="space-y-2">
           {bet.participants.map((p) => (
-            <div key={p.id} className="flex items-center gap-3 p-2 rounded-lg bg-card border">
-              <Avatar className="h-8 w-8">
+            <div key={p.id} className="flex items-center gap-3 p-3 rounded-xl bg-background/40 border border-white/5 shadow-sm backdrop-blur-md">
+              <Avatar className="h-10 w-10 border border-border">
                 <AvatarImage src={p.user.avatarUrl ?? undefined} />
                 <AvatarFallback className="text-xs bg-primary text-primary-foreground">
                   {p.user.displayName[0]}
@@ -172,11 +172,11 @@ export default function BetDetailPage() {
 
       {/* Actions */}
       {isParticipant && (
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm">Actions</CardTitle>
+        <Card className="glass-card border-white/5 bg-background/40 shadow-sm rounded-xl">
+          <CardHeader className="pb-3 px-5 pt-5">
+            <CardTitle className="text-sm font-semibold">Actions</CardTitle>
           </CardHeader>
-          <CardContent className="flex flex-wrap gap-2">
+          <CardContent className="flex flex-wrap gap-3 px-5 pb-5">
             {bet.status === "DRAFT" && (
               <>
                 <Button size="sm" variant="outline" onClick={copyInvite}>

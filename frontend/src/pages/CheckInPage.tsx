@@ -123,12 +123,12 @@ export default function CheckInPage() {
   return (
     <div className="max-w-lg space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">Daily Check-in</h1>
+        <h1 className="text-3xl font-extrabold tracking-tight">Daily Check-in</h1>
         {bet && <p className="text-muted-foreground text-sm">{bet.title}</p>}
       </div>
 
       {/* Status */}
-      <Card>
+      <Card className="glass-card border-white/5 bg-background/40 shadow-sm rounded-xl">
         <CardContent className="flex items-center gap-3 py-4">
           {checkIn.status === "CHECKED_IN" || alreadyPassed ? (
             <>
@@ -162,7 +162,7 @@ export default function CheckInPage() {
 
       {/* Upload section */}
       {checkIn.status === "OPEN" && !alreadyPassed && attemptsLeft > 0 && (
-        <Card>
+        <Card className="glass-card border-white/5 bg-background/40 shadow-sm rounded-xl">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm">Submit Proof</CardTitle>
           </CardHeader>
@@ -229,7 +229,7 @@ export default function CheckInPage() {
             {otherProofs.map((proof) => {
               const alreadyVoted = proof.votes.some((v) => v.voterId === user?.id);
               return (
-                <Card key={proof.id}>
+                <Card key={proof.id} className="glass-card border-white/5 bg-background/40 shadow-sm rounded-xl">
                   <CardContent className="pt-4 space-y-3">
                     <img
                       src={proof.imageUrl}
@@ -280,7 +280,7 @@ export default function CheckInPage() {
 
 function ProofCard({ proof }: { proof: ProofSubmission }) {
   return (
-    <Card>
+    <Card className="glass-card border-white/5 bg-background/40 shadow-sm rounded-xl">
       <CardContent className="pt-4 space-y-3">
         <img src={proof.imageUrl} alt="proof" className="w-full max-h-52 object-cover rounded-md" />
         <div className="flex items-center justify-between">

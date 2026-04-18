@@ -39,7 +39,7 @@ export function Header() {
     .slice(0, 2);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-sm">
+    <header className="md:hidden sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-sm">
       <div className="flex h-14 items-center px-4 gap-4">
         <Link to="/" className="flex items-center gap-2 font-bold text-primary">
           <span className="text-lg">⚡</span>

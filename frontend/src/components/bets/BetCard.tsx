@@ -26,7 +26,7 @@ const typeLabels: Record<Bet["type"], string> = {
 
 export function BetCard({ bet, showJoin }: { bet: Bet; showJoin?: boolean }) {
   return (
-    <Card className="hover:border-primary/50 transition-colors group">
+    <Card className="glass-card bg-background/40 hover:bg-background/50 border-white/5 hover:border-primary/40 transition-all group rounded-xl shadow-sm hover:shadow-md">
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 min-w-0">

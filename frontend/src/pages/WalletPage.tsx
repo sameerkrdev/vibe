@@ -38,32 +38,32 @@ export default function WalletPage() {
 
   return (
     <div className="max-w-2xl space-y-6">
-      <h1 className="text-2xl font-bold">Wallet</h1>
+      <h1 className="text-3xl font-extrabold tracking-tight">Wallet</h1>
 
       <div className="grid grid-cols-2 gap-4">
-        <Card>
-          <CardHeader className="pb-1">
-            <CardTitle className="text-xs text-muted-foreground flex items-center gap-1.5">
-              <Coins className="h-4 w-4 text-accent" /> Balance
+        <Card className="glass-card border-white/5 bg-background/40 hover:bg-background/50 transition-colors shadow-sm rounded-xl">
+          <CardHeader className="pb-2 pt-5 px-5">
+            <CardTitle className="text-sm text-muted-foreground font-medium flex items-center gap-1.5">
+              <Coins className="h-4 w-4 text-primary" /> Balance
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold text-accent">
+          <CardContent className="px-5 pb-5">
+            <p className="text-3xl font-bold tracking-tight text-primary">
               {data?.balance ?? user?.tokenBalance ?? 0}
             </p>
-            <p className="text-xs text-muted-foreground">tokens</p>
+            <p className="text-xs text-muted-foreground mt-0.5">tokens</p>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="pb-1">
-            <CardTitle className="text-xs text-muted-foreground flex items-center gap-1.5">
+        <Card className="glass-card border-white/5 bg-background/40 hover:bg-background/50 transition-colors shadow-sm rounded-xl">
+          <CardHeader className="pb-2 pt-5 px-5">
+            <CardTitle className="text-sm text-muted-foreground font-medium flex items-center gap-1.5">
               <TrendingUp className="h-4 w-4 text-green-400" /> Total Transactions
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold">{data?.pagination.total ?? 0}</p>
-            <p className="text-xs text-muted-foreground">all time</p>
+          <CardContent className="px-5 pb-5">
+            <p className="text-3xl font-bold tracking-tight">{data?.pagination.total ?? 0}</p>
+            <p className="text-xs text-muted-foreground mt-0.5">all time</p>
           </CardContent>
         </Card>
       </div>
@@ -83,7 +83,7 @@ export default function WalletPage() {
               return (
                 <div
                   key={tx.id}
-                  className="flex items-center gap-3 p-3 rounded-lg border bg-card"
+                  className="flex items-center gap-4 p-3 rounded-xl border border-white/5 bg-background/40 backdrop-blur-md shadow-sm hover:shadow-md transition-all"
                 >
                   <div className={cn("h-8 w-8 rounded-full flex items-center justify-center flex-shrink-0",
                     cfg.positive ? "bg-green-500/20" : "bg-red-500/20",
