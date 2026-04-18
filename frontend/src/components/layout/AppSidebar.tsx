@@ -3,7 +3,6 @@ import { Home, Compass, PlusCircle, Wallet, Bell, User, Users } from "lucide-rea
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/store/auth.store";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { TokenBalance } from "@/components/wallet/TokenBalance";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
 import { LogOut } from "lucide-react";

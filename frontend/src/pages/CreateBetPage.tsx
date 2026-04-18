@@ -10,7 +10,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -30,6 +29,7 @@ const schema = z.object({
   endDate: z.string().min(1, "Required"),
 });
 type FormData = z.infer<typeof schema>;
+type FormInput = z.input<typeof schema>;
 
 export default function CreateBetPage() {
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ export default function CreateBetPage() {
     watch,
     setValue,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<FormInput, unknown, FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
       type: "RECURRING",

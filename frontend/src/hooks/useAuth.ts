@@ -5,7 +5,7 @@ import { useAuthStore } from "@/store/auth.store";
 import type { User } from "@/types/api";
 
 export function useAuth() {
-  const { user, isLoading, setUser, setLoading } = useAuthStore();
+  const { user, setUser, setLoading } = useAuthStore();
 
   const { data, isLoading: queryLoading } = useQuery({
     queryKey: ["me"],
